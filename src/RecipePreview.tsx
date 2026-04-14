@@ -1,21 +1,19 @@
-import { useState } from "react";
 import { Recipe } from "recipemd";
 import ReactJsonView from "@microlink/react-json-view";
 
 const RecipePreview = ({ markdown }: { markdown: string }) => {
-  let recipe = null;
+  let recipe: object = { Error: "invalid recipe" };
 
   try {
     recipe = Recipe.parse(markdown);
   } catch (error) {
-    recipe = { Error: error.message };
+    if (error instanceof Error) recipe = { Error: error.message };
   }
 
   return (
     <ReactJsonView
       src={recipe}
       name={false}
-      theme="solarized"
       enableClipboard={false}
       displayObjectSize={false}
       displayDataTypes={false}
